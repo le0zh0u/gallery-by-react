@@ -1,5 +1,5 @@
-require('normalize.css/normalize.css');
-require('styles/App.css');
+require('normalize.css');
+require('../styles/App.scss');
 
 import React from 'react';
 
@@ -11,7 +11,6 @@ class AppComponent extends React.Component {
       <div className="index">
         <img src={yeomanImage} alt="Yeoman Generator" />
         <div className="notice">Please edit <code>src/components/Main.js</code> to get started!</div>
-<span style={{color:'red'}}>OK!</span>
       </div>
     );
   }
