@@ -1,8 +1,8 @@
 require('normalize.css');
 require('../styles/App.scss');
 
-import React from "react";
-import ReactDOM from "react-dom";
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 //获取图片相关数据
 var imageDatas = require('../data/imageData.json');
@@ -55,12 +55,12 @@ class ControllerUnit extends React.Component {
 
   render() {
 
-    var controllerUnitClassName = "controller-unit";
+    var controllerUnitClassName = 'controller-unit';
     if (this.props.arrange.isCenter) {
-      controllerUnitClassName += " is-center";
+      controllerUnitClassName += ' is-center';
 
       if (this.props.arrange.isInverse) {
-        controllerUnitClassName += " is-inverse"
+        controllerUnitClassName += ' is-inverse';
       }
     }
     return (

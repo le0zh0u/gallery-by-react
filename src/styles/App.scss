@@ -7,10 +7,6 @@
 
 }
 
-@mixin abpos {
-  position: absolute;
-}
-
 html, body {
   background-color: #222;
   width: 100%;
@@ -64,7 +60,7 @@ html, body {
     }
 
     .img-back {
-      @include abpos;
+      position: absolute;
       left: 0;
       top: 0;
       width: 100%;
