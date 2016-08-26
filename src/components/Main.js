@@ -42,7 +42,11 @@ class ImgFigure extends React.Component {
   }
 
   handleClick(e) {
-    this.props.inverse();
+    if (this.props.arrange.isCenter) {
+      this.props.inverse();
+    } else {
+      this.props.center();
+    }
 
     e.stopPropagation();
     e.preventDefault();
@@ -62,6 +66,10 @@ class ImgFigure extends React.Component {
       (['Moz', 'Ms', 'Webkit', '']).forEach((value) => {
         styleObj[value + 'Transform'] = 'rotate(' + this.props.arrange.rotate + 'deg)';
       })
+    }
+
+    if (this.props.arrange.isCenter) {
+      styleObj.zIndex = 11;
     }
 
     var imgFigureClassName = 'img-figure';
@@ -110,7 +118,8 @@ class AppComponent extends React.Component {
             top: '0'
           },
           rotate: 0,
-          isInverse: false
+          isInverse: false,
+          isCenter: false
         }
       ]
     }
@@ -128,6 +137,17 @@ class AppComponent extends React.Component {
       this.setState({
         imgsArrangeArr: imgsArrangeArr
       })
+    }
+  }
+
+  /**
+   * 居中图片
+   * @param index
+   * @returns {Function}
+   */
+  center(index) {
+    return ()=> {
+      this.rearrange(index);
     }
   }
 
@@ -154,10 +174,11 @@ class AppComponent extends React.Component {
       imgsArrangeCenterArr = imgsArrangeArr.splice(centerIndex, 1);
 
     //居中中心图片
-    imgsArrangeCenterArr[0].pos = centerPos;
-
-    //居中中心图片不旋转
-    imgsArrangeCenterArr[0].rotate = 0;
+    imgsArrangeCenterArr[0] = {
+      pos: centerPos,
+      rotate: 0,
+      isCenter: true
+    };
 
     //取出要布局上册的图片的状态信息
     topImgSpiceIndex = Math.ceil(Math.random() * (imgsArrangeArr.length - topImgNum));
@@ -171,7 +192,8 @@ class AppComponent extends React.Component {
           left: getRangeRandom(vPosRangeX[0], vPosRangeX[1])
         },
         rotate: get30DegRandomRotate(),
-        isInverse: false
+        isInverse: false,
+        isCenter: false
       };
 
 
@@ -192,7 +214,8 @@ class AppComponent extends React.Component {
           left: getRangeRandom(hPosRangeLORX[0], hPosRangeLORX[1])
         },
         rotate: get30DegRandomRotate(),
-        isInverse: false
+        isInverse: false,
+        isCenter: false
       };
     }
 
@@ -259,7 +282,8 @@ class AppComponent extends React.Component {
         }
       }
       imgFigures.push(<ImgFigure data={value} key={index} ref={'imgFigure' + index}
-                                 arrange={this.state.imgsArrangeArr[index]} inverse={this.inverse(index)}/>);
+                                 arrange={this.state.imgsArrangeArr[index]} inverse={this.inverse(index)}
+                                 center={this.center(index)}/>);
     });
     return (
       <section className="stage" ref="stage">
