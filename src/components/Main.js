@@ -37,17 +37,34 @@ function get30DegRandomRotate() {
 class ControllerUnit extends React.Component {
   constructor(props) {
     super(props);
+    this.handleClick = this.handleClick.bind(this);
+
   }
 
   handleClick(e) {
+
+    if (this.props.arrange.isCenter) {
+      this.props.inverse();
+    } else {
+      this.props.center();
+    }
 
     e.preventDefault();
     e.stopPropagation();
   }
 
   render() {
+
+    var controllerUnitClassName = "controller-unit";
+    if (this.props.arrange.isCenter) {
+      controllerUnitClassName += " is-center";
+
+      if (this.props.arrange.isInverse) {
+        controllerUnitClassName += " is-inverse"
+      }
+    }
     return (
-      <span className="controller-unit" onClick={this.handleClick}></span>
+      <span className={controllerUnitClassName} onClick={this.handleClick}></span>
     )
   }
 }
@@ -186,7 +203,7 @@ class AppComponent extends React.Component {
       vPosRangeX = vPosRange.x,
 
       imgsArrangeTopArr = [],
-      topImgNum = Math.ceil(Math.random() * 1), //取一个或不取
+      topImgNum = Math.floor(Math.random() * 2), //取一个或不取
       topImgSpiceIndex = 0,
 
       imgsArrangeCenterArr = imgsArrangeArr.splice(centerIndex, 1);
@@ -282,7 +299,7 @@ class AppComponent extends React.Component {
     this.Constant.vPosRange.x[0] = halfStageW - imgW;
     this.Constant.vPosRange.x[1] = halfStageW;
 
-    this.rearrange(1);
+    this.rearrange(0);
   }
 
   render() {
@@ -303,7 +320,8 @@ class AppComponent extends React.Component {
                                  arrange={this.state.imgsArrangeArr[index]} inverse={this.inverse(index)}
                                  center={this.center(index)}/>);
 
-      controllerUnits.push(<ControllerUnit></ControllerUnit>);
+      controllerUnits.push(<ControllerUnit arrange={this.state.imgsArrangeArr[index]} key={index} inverse={this.inverse(index)}
+                                           center={this.center(index)}></ControllerUnit>);
     });
     return (
       <section className="stage" ref="stage">
